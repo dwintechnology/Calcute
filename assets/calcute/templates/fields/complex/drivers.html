@@ -1,0 +1,36 @@
+<div class="row grid-50">
+    <div class="col-xs-11 col-xs-offset-1 text-left">
+        <label ng-bind="field.path.options.label"></label>
+        <p class="help-text" ng-if="field.path.options.helpText && !field.$viewValue && field.$pristine">
+            <ng-bind ng-bind="field.path.options.helpText"></ng-bind>
+        </p>
+        <ng-repeat ng-repeat="item in field.$viewValue">
+        <ul class="list-unstyled error-messages" role="alert" multiple>
+            <li ng-if="form['driverForm' + $index].$invalid && form['driverForm' + $index].$dirty" class="text-danger"><small>Введите данные водителя {{ $index + 1 }}</small></li>
+        </ul>
+        </ng-repeat>
+    </div>
+    <div class="col-xs-26">
+        <div class="select">
+        <span ng-repeat="countLabel in field.path.options.countLabels">
+            <a role="button" ng-class="{ 'active': field.$viewValue.length==countLabel[0] }" ng-click="field.setCount(countLabel[0])">
+                <small ng-bind="countLabel[1]"></small>
+            </a>
+        </span>
+        </div>
+        <ng-repeat ng-repeat="item in field.$viewValue">
+            <ng-form class="inline" name="{{ 'driverForm' + $index }}" model="Driver" instance="item"> 
+            <hr class="transparent small" />
+            <div class="row grid-24">
+                <div class="col-xs-12"><label>Водитель {{ $index+1 }}</label></div>
+                <div class="col-xs-12 select"><ng-model ng-model="gender" /></div>
+            </div>
+            <div class="row grid-24">
+                <div class="col-xs-13"><ng-model ng-model="age" /></div>
+                <div class="col-xs-11"><ng-model ng-model="experience" /></div>
+            </div>
+            </ng-form>
+        </ng-repeat>
+    </div>
+</div>
+<hr/>

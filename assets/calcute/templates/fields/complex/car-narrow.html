@@ -1,0 +1,11 @@
+<div>
+  <query promise="field.ref.queryPub({ brandId: form.getValue(field.$name).brand._id.toString(), $orderby: { label: 1 } }).$promise" resolve-to="brandItems" group-by="4">
+    <div class="row">
+        <div class="col-xs-3 text-left" ng-repeat="group in brandItems track by $index">
+            <small ng-repeat="item in group"><a role="button" ng-class="{ 'active': field.$viewValue==item }" ng-click="field.setRef(item)" ng-bind="item.label"></a><br/></small>
+            <small ng-if="$last"><a role="button" ng-class="{ 'active ': form.carOther }" ng-click="field.setOther(true)">Другая</a></small>
+        </div>
+    </div>
+  </query>
+  <p>&nbsp;</p>
+</div>

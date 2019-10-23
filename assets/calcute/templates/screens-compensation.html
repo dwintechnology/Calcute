@@ -1,0 +1,68 @@
+<screen ng-if="!feedback._id">
+    <ng-form name="feedbackForm" model="CompensationInfo" instance="feedback">
+        <screen ng-if="!feedback.car.brand && !feedback.car.fullLabel">
+            <h3>
+                <span class="well-placeholder">&nbsp;</span><big class="ca ca-car"></big><span class="well-placeholder">&nbsp;&nbsp;</span>Выберите марку своего авто:
+            </h3>
+            <p>&nbsp;</p>
+            <ng-form name="carForm" model="Car" instance="feedback.car">
+                <ng-model ng-model="brand" />
+                <p>&nbsp;</p>
+                <ng-if ng-if="carForm.brandOther">
+                    <ng-model ng-model="fullLabel" />
+                </ng-if>
+            </ng-form>
+        </screen>
+        <screen ng-if="feedback.car.brand && !feedback.car.fullLabel && !feedback.car.label">
+            <h3 ng-class="{ 'with-icon': feedback.car.brand.icon }">
+                <a role="button" class="btn btn-link btn-lg unstyled" ng-click="feedback.car.brand = undefined">
+                    <big class="fa fa-angle-left"></big><i class="well-placeholder">&nbsp;</i>Выберите модель вашего <ng-bind ng-bind="feedback.car.brand.label"></ng-bind>:
+                    <ng-img class="invisible" src="feedback.car.brand.icon" />
+                </a>
+                <ng-img ng-if="feedback.car.brand.icon" class="pull-right" src="feedback.car.brand.icon" />
+            </h3>
+            <p>&nbsp;</p>
+            <ng-model ng-model="car" />
+            <ng-form name="carForm" model="Car" instance="feedback.car">
+                <ng-if ng-if="feedbackForm.carOther">
+                    <ng-model ng-model="label" />
+                </ng-if>
+            </ng-form>
+        </screen>
+        <screen class="container-fluid" ng-if="feedback.car.fullLabel || feedback.car.label">
+            <p>&nbsp;</p>
+            <ng-model-set class="hr-after-each" include="year company policyType damageInfo payedSum fullName phoneNumber accidentDate email documents" auto-hide="true" />
+            <div class="row">
+                <div class="col-xs-12 select wide-lines">
+                    <ng-model-set include="car year company policyType damageInfo payedSum fullName phoneNumber accidentDate email documents" template="/calcute/templates/fields/tag.html" after="<span> </span>" />
+                </div>
+            </div>
+         <p>&nbsp;</p>
+         <div>
+            <div ng-if="feedbackForm.$valid" class="screen-footer bg-primary">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br/>
+                        <label for="agreement" style="font-weight:normal;cursor:pointer;"><input style="cursor:pointer;" id="agreement" type="checkbox" ng-model="feedback.agreement" /> Согласие на обработку моих персональных данных,<br/> ФЗ РФ от 27 июля 2006 г. № 152-ФЗ</label>
+                    </div>
+                </div>
+                <div class="row" ng-if="feedback.agreement">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-lg btn-primary-submit" ng-click="feedbackForm.save()">&nbsp; Рассчитать &nbsp; <span class="arrow"></span>&nbsp; </button>&nbsp; &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        </screen>
+    </ng-form>
+</screen>
+<screen ng-if="feedback._id">
+    <div class="row success-row">
+        <div class="col-xs-7"></div>
+        <div class="col-xs-5">
+            <h1>&ndash; Спасибо!</h1>
+            <p>Ваша заявка принята в обработку, в ближайшее время с вами свяжется специалист для расчета стоимости полиса.<br/></p>
+            <button class="btn btn-lg btn-success-submit" ng-click="reInitAll()">Сделать еще один расчет</button>
+        </div>
+    </div>
+</screen>

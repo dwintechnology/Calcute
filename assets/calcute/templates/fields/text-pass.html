@@ -1,0 +1,21 @@
+<div class="row grid-50">
+<div class="col-xs-11 col-xs-offset-1 text-left">
+    <label ng-bind="field.path.options.label"></label>
+    <p class="help-text" ng-if="field.path.options.helpText && !field.$viewValue && field.$pristine && !form.fields[field.$name].pass">
+        <ng-bind ng-bind="field.path.options.helpText"></ng-bind>
+    </p>
+    <ul class="list-unstyled error-messages" ng-if="!field.$valid && field.$dirty" role="alert" multiple>
+        <li class="text-danger"><small ng-bind="field.path.options.errorText"></small></li>
+    </ul>
+</div>
+<div class="col-xs-38 small">
+    <div class="text-input-wrapper" ng-if="!form.fields[field.$name].pass">
+        <input name="{{ field.$name }}" input-attrs="field.path.options.inputAttrs" class="form-control input-sm" type="text" mask="{{ field.path.options.mask }}" ng-required="{{ field.path.options.required ? 'true' : 'false' }}" ng-readonly="form.fields[field.$name].pass" placeholder="{{ form.fields[field.$name].pass ? 'отсутствует' : '' }}"/>
+        <small class="field-activator" ng-click="field.activate()"><ng-bind ng-bind="display"></ng-bind> <span class="text-center icon-placeholder"><small class="fa fa-pencil"></small></span></small>
+    </div>
+    <div class="text-input-wrapper" ng-if="form.fields[field.$name].pass" ng-click="form.fields[field.$name].pass=false">
+        <small><a role="button" class="unstyled text-input-pass-cancel">отсутствует</a></small>
+    </div>
+    <small ng-if="!form.fields[field.$name].pass"><a class="unstyled text-input-pass" role="button" ng-click="form.fields[field.$name].pass=true">отсутствует</a></small>
+</div>
+</div>

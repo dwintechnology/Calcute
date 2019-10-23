@@ -1,0 +1,122 @@
+<screen ng-if="!feedback._id">
+    <ng-form name="feedbackForm" model="Feedback" instance="feedback">
+        <screen ng-if="!feedback.car.brand && !feedback.car.fullLabel">
+            <h3>
+                <span class="well-placeholder">&nbsp;</span><big class="ca ca-car"></big><span class="well-placeholder">&nbsp;&nbsp;</span>Выберите марку своего авто:
+            </h3>
+            <p>&nbsp;</p>
+            <ng-form name="carForm" model="Car" instance="feedback.car">
+                <ng-model ng-model="brand" />
+                <p>&nbsp;</p>
+                <ng-if ng-if="carForm.brandOther">
+                    <ng-model ng-model="fullLabel" />
+                </ng-if>
+            </ng-form>
+        </screen>
+        <screen ng-if="feedback.car.brand && !feedback.car.fullLabel && !feedback.car.label">
+            <h3 ng-class="{ 'with-icon': feedback.car.brand.icon }">
+                <a role="button" class="btn btn-link btn-lg unstyled" ng-click="feedback.car.brand = undefined">
+                    <big class="fa fa-angle-left"></big><i class="well-placeholder">&nbsp;</i>Выберите модель вашего <ng-bind ng-bind="feedback.car.brand.label"></ng-bind>:
+                    <ng-img class="invisible" src="feedback.car.brand.icon" />
+                </a>
+                <ng-img ng-if="feedback.car.brand.icon" class="pull-right" src="feedback.car.brand.icon" />
+            </h3>
+            <p>&nbsp;</p>
+            <ng-model ng-model="car" />
+            <ng-form name="carForm" model="Car" instance="feedback.car">
+                <ng-if ng-if="feedbackForm.carOther">
+                    <ng-model ng-model="label" />
+                </ng-if>
+            </ng-form>
+        </screen>
+        <screen class="container-fluid" ng-if="feedback.car.fullLabel || feedback.car.label">
+            <p>&nbsp;</p>
+            <ng-model-set class="hr-after-each" include="year power capacity price credit bank city otherCity drivers type franchise franchiseSum hasDiagCard fullName phoneNumber expectedDate email" auto-hide="true" watch-state="state" ignore-state="bank franchiseSum email" />
+            <h1 class="text-center" ng-if="state.hidden">
+                <label class="semi-transparent text-muted">Осталось еще <span ng-bind="state.hidden"></span>...</label>
+            </h1>
+            <div class="row">
+                <div class="col-xs-12 select wide-lines">
+                    <ng-model-set include="car year power capacity price credit bank city otherCity drivers type franchise franchiseSum hasDiagCard fullName phoneNumber expectedDate email" template="/calcute/templates/fields/tag.html" after="<span> </span>" />
+                </div>
+            </div>
+            <p>&nbsp;</p>
+            <div ng-if="feedbackForm.$valid" class="screen-footer bg-primary">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br/>
+                        <label for="agreement" style="font-weight:normal;cursor:pointer;"><input style="cursor:pointer;" id="agreement" type="checkbox" ng-model="feedback.agreement" /> Согласие на обработку моих персональных данных,<br/> ФЗ РФ от 27 июля 2006 г. № 152-ФЗ</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <p><br/>&ndash; Все готово для расчета<br/>&nbsp;</p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-lg btn-primary-submit" ng-click="feedbackForm.save()">&nbsp; Рассчитать! &nbsp; <span class="arrow"></span>&nbsp; </button>&nbsp; &nbsp;
+                    </div>
+                </div>
+            </div>
+        </screen>
+    </ng-form>
+</screen>
+<screen ng-if="feedback._id">
+    <ng-form name="discountForm" model="DiscountInfo" instance="discountInfo" initial="{ feedback: feedback._id, fullName: feedback.fullName, drivers: feedback.drivers }">
+         <p>&nbsp;</p>
+         <p class="h2 text-center first-step-success-message">
+            <big class="fa fa-circle-thin"></big>
+            <big class="check-icon">✓</big>
+         </p>
+         <p class="text-center first-step-success-message">
+            <br/>
+            <span>Спасибо за вашу заявку.</span>
+         </p>
+         <p>&nbsp;</p>
+         <p class="h2 text-center bigger-line-height">
+            Хотите расчет с учетом накопленных скидок?<br/>
+            Тогда заполните следующие поля:
+         </p>
+         <p>&nbsp;</p>
+         <ng-model-set class="hr-after-each" include="expYear expMonth company isNotFirst isMarried hasKids mileage serviceGuarantee prolongation theftProtection autoStarter tarif birthDate fullName email comment" auto-hide="true" watch-state="state" />
+         <h1 class="text-center" ng-if="state.hidden>0">
+            <label class="semi-transparent text-muted">Осталось еще <span ng-bind="state.hidden"></span>...</label>
+         </h1>
+         <div class="row">
+            <div class="col-xs-12 select wide-lines">
+                <ng-model-set include="expYear expMonth company isNotFirst isMarried hasKids mileage serviceGuarantee prolongation theftProtection autoStarter tarif birthDate fullName email comment" template="/calcute/templates/fields/tag.html" after="<span> </span>" />
+            </div>
+         </div>
+         <p>&nbsp;</p>
+         <div>
+            <div ng-if="discountForm.$valid" class="bg-symbol">
+                <span>%</span>
+            </div>
+            <div ng-if="discountForm.$valid" class="screen-footer bg-success bg-percent">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br/>
+                        <label for="agreement" style="font-weight:normal;cursor:pointer;"><input style="cursor:pointer;" id="agreement" type="checkbox" ng-model="feedback.agreement" /> Согласие на обработку моих персональных данных,<br/> ФЗ РФ от 27 июля 2006 г. № 152-ФЗ</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-lg btn-success-submit" ng-click="discountForm.save()">&nbsp; Рассчитать со скидкой &nbsp; <span class="arrow"></span>&nbsp; </button>&nbsp; &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-form>
+</screen>
+<screen ng-if="discountInfo._id">
+    <div class="row success-row">
+        <div class="col-xs-7"></div>
+        <div class="col-xs-5">
+            <h1>&ndash; Спасибо!</h1>
+            <p>Ваша заявка принята в обработку, в ближайшее время с вами свяжется специалист для расчета стоимости полиса.<br/></p>
+            <button class="btn btn-lg btn-success-submit" ng-click="reInitAll()">Сделать еще один расчет</button>
+            <br/>
+            <br/>
+            <a target="_blank" class="unstyled" href="http://kasko-calculators.ru/tehosmotrs"><small>Оформить диагностическую карту онлайн</small></a>
+        </div>
+    </div>
+</screen>

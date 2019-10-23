@@ -1,0 +1,80 @@
+<screen ng-if="!feedback._id">
+    <ng-form name="feedbackForm" model="InspectionInfo" instance="feedback">
+        <screen ng-if="!feedback.car.brand && !feedback.car.fullLabel">
+            <h3>
+                <span class="well-placeholder">&nbsp;</span><big class="ca ca-car"></big><span class="well-placeholder">&nbsp;&nbsp;</span>Выберите марку своего авто:
+            </h3>
+            <p>&nbsp;</p>
+            <ng-form name="carForm" model="Car" instance="feedback.car">
+                <ng-model ng-model="brand" />
+            </ng-form>
+            <div>
+                <ng-model ng-model="category" template="/calcute/templates/inspection/category.html" />
+            </div>
+            <ng-if ng-if="carForm.brandOther||feedback.category">
+                <p>&nbsp;</p>
+                <ng-form name="carForm" model="Car" instance="feedback.car">
+                    <ng-model ng-model="fullLabel" />
+                </ng-form>
+            </ng-if>
+        </screen>
+        <screen ng-if="feedback.car.brand && !feedback.car.fullLabel && !feedback.car.label">
+            <h3 ng-class="{ 'with-icon': feedback.car.brand.icon }">
+                <a role="button" class="btn btn-link btn-lg unstyled" ng-click="feedback.car.brand = undefined">
+                    <big class="fa fa-angle-left"></big><i class="well-placeholder">&nbsp;</i>Выберите модель вашего <ng-bind ng-bind="feedback.car.brand.label"></ng-bind>:
+                    <ng-img class="invisible" src="feedback.car.brand.icon" />
+                </a>
+                <ng-img ng-if="feedback.car.brand.icon" class="pull-right" src="feedback.car.brand.icon" />
+            </h3>
+            <p>&nbsp;</p>
+            <ng-model ng-model="car" />
+            <ng-model ng-model="category" template="/calcute/templates/inspection/category.html" />
+            <ng-form name="carForm" model="Car" instance="feedback.car">
+                <p>&nbsp;</p>
+                <ng-if ng-if="feedbackForm.carOther||feedback.category">
+                    <ng-model ng-model="label" />
+                </ng-if>
+            </ng-form>
+        </screen>
+        <screen class="container-fluid" ng-if="feedback.car.fullLabel || feedback.car.label">
+            <p>&nbsp;</p>
+            <ng-model-set class="hr-after-each" include="year vin chassisId carcassId govId mass maxMass brakeSystem licenseType license licenseBy licenseAt mileage tire fuelType email fullName phoneNumber" auto-hide="true" />
+            <div class="row">
+                <div class="col-xs-12 select wide-lines">
+                    <ng-model-set include="car year vin chassisId carcassId govId mass maxMass brakeSystem licenseType license licenseBy licenseAt mileage tire fuelType email fullName phoneNumber" template="/calcute/templates/fields/tag.html" after="<span> </span>" />
+                </div>
+            </div>
+            <p>&nbsp;</p>
+            <div ng-if="feedbackForm.$valid" class="screen-footer bg-primary">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br/>
+                        <label for="agreement" style="font-weight:normal;cursor:pointer;"><input style="cursor:pointer;" id="agreement" type="checkbox" ng-model="feedback.agreement" /> Согласие на обработку моих персональных данных,<br/> ФЗ РФ от 27 июля 2006 г. № 152-ФЗ</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <p><br/>&ndash; Все готово<br/>&nbsp;</p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-lg btn-primary-submit" ng-click="submit()">&nbsp; Получить карту &nbsp; <span class="arrow"></span>&nbsp; </button>&nbsp; &nbsp;
+                    </div>
+                </div>
+            </div>
+        </screen>
+    </ng-form>
+</screen>
+<screen ng-if="feedback._id">
+    <div class="row success-row">
+        <div class="col-xs-7"></div>
+        <div class="col-xs-5">
+            <h1>&ndash; Спасибо!</h1>
+            <p>
+                Ваша диагностическая карта готова, для получения карты произведите оплату ниже.
+                Если в вашей заявке будут неточности, наш оператор позвонит для уточнения.
+                Получив карту проверьте ее, в случае ошибки, мы отправим исправленную версию.
+            </p>
+            <button ng-click="feedback.pay=true" class="btn btn-lg btn-success-submit">Оплатить онлайн (<ng-bind ng-bind="module.diagCardPrice"></ng-bind> руб)</button>
+        </div>
+    </div>
+</screen>

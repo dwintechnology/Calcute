@@ -1,0 +1,10 @@
+<h3 ng-bind="field.path.options.label"></h3>
+<div class="row">
+<div class="col-xs-12 select" ng-class="{ 'compact': field.path.options.enum.length>10 }">
+    <span class="grid-11" ng-repeat="item in field.path.options.enum">
+        <a name="{{ field.name }}" role="button" ng-class="{ 'active': field.$viewValue==item }" ng-click="field.$setViewValue(item)">
+            <small ng-bind="item.label ? item.label : item"></small>
+        </a>
+    </span>
+</div>
+</div>
